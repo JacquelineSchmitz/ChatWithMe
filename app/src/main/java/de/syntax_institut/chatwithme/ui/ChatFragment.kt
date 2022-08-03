@@ -67,6 +67,9 @@ class ChatFragment : Fragment() {
 
         // Der BtnBack bekommt einen Click Listener
         // TODO
+        binding.btnBack.setOnClickListener{
+            findNavController().navigateUp()
+        }
     }
 
     /**

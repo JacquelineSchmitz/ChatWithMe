@@ -28,18 +28,32 @@ class SharedViewModel : ViewModel() {
 
     // Eine Instanz des Repository wird in einer Variablen gespeichert
     // TODO
+    private val repository = Repository()
 
     // Die Liste aus Kontakten wird in einer verschachtelten Variable gespeichert
     // TODO
+    private val _contactList = repository.contactList
+    val contactList: List<Contact>
+        get() = _contactList
 
     // Der aktuell ausgewählte Kontakt wird in einer verschachtelten Variable gespeichert
     // TODO
+    private lateinit var _currentContact: Contact
+    val currentContact: Contact
+    get() = _currentContact
 
     // Der Zustand der Draft Message wird in einer verschachtelten Variable gespeichert
     // TODO
+    private var _draftMessageState = MutableLiveData(DraftState.DELETED)
+    val draftMessageState: LiveData<DraftState>
+    get() = _draftMessageState
+
 
     // Der Eingabe Text wird in einer Variablen gespeichert
     // TODO
+    private var _inputText = MutableLiveData(String)
+    val inputText: LiveData<>
+    get() = _inputText
 
     /**
      * Diese Funktion initialisiert den Chat und setzt die Variablen dementsprechend
