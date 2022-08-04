@@ -44,22 +44,25 @@ class SharedViewModel : ViewModel() {
 
     // Der Zustand der Draft Message wird in einer verschachtelten Variable gespeichert
     // TODO
-    private var _draftMessageState = MutableLiveData(DraftState.DELETED)
+    private val _draftMessageState = MutableLiveData(DraftState.DELETED)
     val draftMessageState: LiveData<DraftState>
     get() = _draftMessageState
 
 
     // Der Eingabe Text wird in einer Variablen gespeichert
     // TODO
-    private var _inputText = MutableLiveData(String)
-    val inputText: LiveData<>
-    get() = _inputText
+
+    var inputText = MutableLiveData<String>()
+
 
     /**
      * Diese Funktion initialisiert den Chat und setzt die Variablen dementsprechend
      */
     fun initializeChat(contactIndex: Int) {
         // TODO
+        _currentContact = contactList[contactIndex]
+        inputText.value = ""
+        _draftMessageState.value = DraftState.DELETED
     }
 
     /**
@@ -67,6 +70,12 @@ class SharedViewModel : ViewModel() {
      */
     fun closeChat() {
         // TODO
+        if (_draftMessageState.value == DraftState.CREATED
+            || _draftMessageState.value == DraftState.CHANGED
+        ) {
+            currentContact.chatHistory.removeAt(0)
+        }
+        _draftMessageState.value = DraftState.DELETED
     }
 
     /**
@@ -75,6 +84,23 @@ class SharedViewModel : ViewModel() {
      */
     fun inputTextChanged(text: String) {
         // TODO
+        if (_draftMessageState.value == DraftState.CREATED
+        ) {
+            if (text != "") {
+                _currentContact.chatHistory[0].messageText = text
+                _draftMessageState.value = DraftState.CHANGED
+            }
+            else {
+                _currentContact.chatHistory.removeAt(0)
+                _draftMessageState.value = DraftState.DELETED
+            }
+        }
+        else {
+            if (text != "") {
+                _currentContact.chatHistory.add(0,Message (text, true))
+                _draftMessageState.value = DraftState.CREATED
+            }
+        }
     }
 
     /**
@@ -83,5 +109,8 @@ class SharedViewModel : ViewModel() {
      */
     fun sendDraftMessage() {
         // TODO
+        _currentContact.chatHistory[0].isDraft = false
+        _draftMessageState.value = DraftState.SENT
+        inputText.value = ""
     }
 }
