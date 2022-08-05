@@ -44,7 +44,7 @@ class ChatFragment : Fragment() {
 
         // Mit binding wird das ViewModel und der viewLifecycleOwner dem Layout zugewiesen
         // TODO
-        binding.viewModel = SharedViewModel()
+        binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
         // Das übergebene Argument ("contact Index") wird in eine Variable gespeichert

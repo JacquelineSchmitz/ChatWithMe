@@ -84,8 +84,7 @@ class SharedViewModel : ViewModel() {
      */
     fun inputTextChanged(text: String) {
         // TODO
-        if (_draftMessageState.value == DraftState.CREATED
-        ) {
+        if (_draftMessageState.value == DraftState.CREATED || _draftMessageState.value == DraftState.CHANGED) {
             if (text != "") {
                 _currentContact.chatHistory[0].messageText = text
                 _draftMessageState.value = DraftState.CHANGED
